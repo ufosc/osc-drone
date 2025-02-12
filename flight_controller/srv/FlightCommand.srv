@@ -1,0 +1,6 @@
+string command
+geometry_msgs/Point target_position
+float32 target_altitude
+---
+bool success
+string message
