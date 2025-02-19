@@ -10,6 +10,8 @@ MavrosInterface::MavrosInterface() {
 
 Sets the arm state of the drone to true or false, depending on the parameter.
 
+@note Will return false if MODE is set to LAND or any other mode that can't be armed
+
 @returns true - successfully set, false - something failed
 */
 bool MavrosInterface::setArmed(bool arm) {
