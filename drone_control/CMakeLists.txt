@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(autopilot_interface)
+project(drone_control)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -105,9 +105,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
  INCLUDE_DIRS include
- LIBRARIES autopilot_interface
+ LIBRARIES drone_control
  CATKIN_DEPENDS mavros_msgs roscpp std_msgs std_srvs
- # DEPENDS system_lib
+#  DEPENDS system_lib
 )
 
 ###########
@@ -121,15 +121,11 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-
-add_library(autopilot_interface src/autopilot_interface.cpp)
-
-add_executable(autopilot_interface_node src/main.cpp)
-target_link_libraries(autopilot_interface_node autopilot_interface ${catkin_LIBRARIES})
-## Declare a C++ library
-# add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/autopilot_interface.cpp
-# )
+# Declare a C++ library
+ add_library(${PROJECT_NAME}
+   src/${PROJECT_NAME}/drone_control.cpp
+   src/${PROJECT_NAME}/mavros_interface.cpp
+ )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -139,7 +135,7 @@ target_link_libraries(autopilot_interface_node autopilot_interface ${catkin_LIBR
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/autopilot_interface_node.cpp)
+add_executable(${PROJECT_NAME}_node src/main.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -152,9 +148,10 @@ target_link_libraries(autopilot_interface_node autopilot_interface ${catkin_LIBR
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(${PROJECT_NAME}_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(${PROJECT_NAME}_node
+  ${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
@@ -203,7 +200,7 @@ target_link_libraries(autopilot_interface_node autopilot_interface ${catkin_LIBR
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_autopilot_interface.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_drone_control.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
